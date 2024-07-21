@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ const CaffeineHalfLifeApp = () => {
   const chartConfig = {
     caffeine: {
       label: "Caffeine",
-      color: "hsl(var(--chart-1))",
+      color: "hsl(var(--chart-3))",
     },
   }
 
@@ -90,8 +90,8 @@ const CaffeineHalfLifeApp = () => {
   }, [intakes]);
 
   return (
-    <div className="h-screen flex items-center" >
-      <Card className="w-full max-w-4xl mx-auto p-8">
+    <div className="flex flex-col min-h-screen items-center grid grid-cols-1" >
+      <Card className="w-full max-w-2xl mx-auto p-10 pt-6">
         <CardHeader className="px-0">
           <CardTitle>☕ Caffeine Half-Life</CardTitle>
         </CardHeader>
@@ -102,33 +102,6 @@ const CaffeineHalfLifeApp = () => {
               the amount of caffeine in your body reduces by half. The chart below shows how the
               caffeine level changes over a 24-hour period starting from your first intake.
             </p>
-            {/* <h3 className="font-semibold mb-2">Typical Caffeine Amounts:</h3> */}
-            {/* <Table className="mb-1">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Beverage</TableHead>
-                  <TableHead>Serving Size</TableHead>
-                  <TableHead>Caffeine (mg)</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Espresso</TableCell>
-                  <TableCell>1 shot (30 ml)</TableCell>
-                  <TableCell>63</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Brewed Coffee</TableCell>
-                  <TableCell>1 cup (240 ml)</TableCell>
-                  <TableCell>96</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Black Tea</TableCell>
-                  <TableCell>1 cup (240 ml)</TableCell>
-                  <TableCell>47</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table> */}
           </div>
 
           <Table className="mb-4">
@@ -136,7 +109,6 @@ const CaffeineHalfLifeApp = () => {
               <TableRow>
                 <TableHead className="w-1/3">Time (HH:MM)</TableHead>
                 <TableHead className="w-1/3">Caffeine Amount (mg)</TableHead>
-                <TableHead className="w-1/3"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -164,27 +136,33 @@ const CaffeineHalfLifeApp = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" onClick={() => removeIntake(index)} className="w-full">
-                      <Trash2 className="h-5 w-5 mr-2" />
-                    </Button>
+                    <div className='grid grid-cols-2'>
+                      <div></div>
+                      {index !== 0 && (
+                        <Button variant="ghost" onClick={() => removeIntake(index)} className="w-full">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
             <TableFooter>
               <TableRow>
-                <TableCell colSpan={3} className="text-center">
+                <TableCell colSpan={3} className="text-center p-0">
                   <Button variant="ghost" onClick={addIntake} className="w-full">
-                    <Plus className="h-5 w-5" />
+                    <Plus className="h-4 w-4" />
                   </Button>
                 </TableCell>
               </TableRow>
             </TableFooter>
           </Table>
 
+
           {error && <Alert variant="destructive" className="mb-6"><AlertDescription>{error}</AlertDescription></Alert>}
 
-          <div className="h-[400px] w-full mb-6">
+          <div className="w-full">
             <ChartContainer config={chartConfig}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
@@ -214,9 +192,13 @@ const CaffeineHalfLifeApp = () => {
               </ResponsiveContainer>
             </ChartContainer>
           </div>
-          <br></br>
         </CardContent>
       </Card >
+      <footer className="w-full mb-6 pt-10">
+        <p className="text-center">
+          Made with ❤️ by <a href="https://x.com/mattppal" target='_blank'> Matt</a>
+        </p>
+      </footer>
     </div >
   );
 };
